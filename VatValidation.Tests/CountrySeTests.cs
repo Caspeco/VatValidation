@@ -17,4 +17,19 @@ public class CountrySeTests
 		Assert.Equal(expectNational, vat.FormatNational);
 		Assert.Equal(expectVat, vat.FormatVat);
 	}
+
+	[Theory]
+	[InlineData(true, "SE 1010101010 01", "101010-1010")]
+	[InlineData(true, "SE101010101001", "101010-1010")]
+	[InlineData(true, "SE556677889901", "556677-8899")]
+	[InlineData(true, "5566778899", "556677-8899")]
+	[InlineData(false, "5566778898", "")]
+	public void TryParseTest(bool expectedValid, string input, string expectNational)
+	{
+		Assert.Equal(expectedValid, VatNumber.TryParse(input, out var vat));
+		Console.WriteLine($"cc: {vat.CC} nat: {vat.FormatNational} vat: {vat.FormatVat}");
+		Assert.Equal(expectedValid ? "SE" : null, vat.CC);
+		Assert.Equal(expectedValid, vat.Valid);
+		Assert.Equal(expectNational, vat.FormatNational);
+	}
 }

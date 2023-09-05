@@ -18,6 +18,34 @@ public abstract class CountryBase : ICountry
 	/// <summary>Length including country code any anything else required in VAT format</summary>
 	public virtual int MinLengthVat => MinLength + 2;
 
+	/// <summary>Only called if <see cref="CC"/> and <see cref="MinLengthVat"/> matches</summary>
+	protected virtual string GetVatInner(string input) => input[2..];
+
+	public virtual bool TryParse(string input, out VatNumber vat)
+	{
+		if (input.Length < MinLength)
+		{
+			vat = VatNumber.Empty;
+			return false;
+		}
+
+		if (input.Length >= MinLengthVat &&
+			input.StartsWith(CC, StringComparison.OrdinalIgnoreCase))
+		{
+			input = GetVatInner(input);
+		}
+
+		var xvat = new VatNumber(this, input);
+		if (!Valid(xvat))
+		{
+			vat = VatNumber.Empty;
+			return false;
+		}
+
+		vat = xvat;
+		return true;
+	}
+
 	private static string Format(int[] d, VatNumber vat, Func<int[], bool> v, Func<int[], string> f) => v(d) ? f(d) : vat;
 	protected static string Format(VatNumber vat, Func<int[], bool> valid, Func<int[], string> formatValid) =>
 		Format(vat.GetInts(), vat, valid, formatValid);
