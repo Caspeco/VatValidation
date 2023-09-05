@@ -16,4 +16,14 @@ public class SE : CountryBase
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, d => $"{ToStr(d[0..6])}-{ToStr(d[6..])}");
 
 	public override string FormatVat(VatNumber vat) => $"{CC} {FormatStripped(vat)} 01";
+
+	protected override string GetVatInner(string input)
+	{
+		if (input.EndsWith("01"))
+		{
+			input = input[2..];
+			input = input[..^2];
+		}
+		return input;
+	}
 }
