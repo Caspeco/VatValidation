@@ -12,9 +12,9 @@ public readonly struct VatNumber
 	public VatNumber(string vatNumber) => _vatNumber = vatNumber;
 
 	public VatNumber(ICountry country, string vatNumber)
+		: this(vatNumber)
 	{
 		_country = country;
-		_vatNumber = vatNumber;
 	}
 
 	public string? CC => _country?.CC;
@@ -26,6 +26,8 @@ public readonly struct VatNumber
 	public string FormatNational => _country?.FormatNational(this) ?? _vatNumber;
 
 	public string FormatVat => _country?.FormatVat(this) ?? _vatNumber;
+
+	public VatNumber VatStripped => _country is null ? new(FormatStripped) : new(_country, FormatStripped);
 
 	public string FormatNumbersOnly => CountryBase.ToStr(GetInts());
 
