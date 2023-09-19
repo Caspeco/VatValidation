@@ -41,6 +41,8 @@ public class CountrySeTests
 	[InlineData(true, "SE5566778501", "556677-8501")]
 	[InlineData(true, "5566778501", "556677-8501")]
 	[InlineData(false, "5566778898", "")]
+	[InlineData(false, "0566988259", "")] // BE number
+	[InlineData(false, "566988259", "")] // BE number, also matches NO
 	public void TryParseTest(bool expectedValid, string input, string expectNational)
 	{
 		Assert.Equal(expectedValid, VatNumber.TryParse(input, out var vat));
