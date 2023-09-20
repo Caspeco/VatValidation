@@ -22,7 +22,16 @@ public class CountrySeTests
 	[InlineData(true, "SE 1010101010 01", "101010-1010")]
 	[InlineData(true, "SE101010101001", "101010-1010")]
 	[InlineData(true, "SE556677889901", "556677-8899")]
+	[InlineData(true, "SE 556677-8899", "556677-8899")]
+	[InlineData(true, "SE556677-8899", "556677-8899")]
+	[InlineData(true, "SE 5566778899", "556677-8899")]
+	[InlineData(true, "SE5566778899", "556677-8899")]
 	[InlineData(true, "5566778899", "556677-8899")]
+	[InlineData(true, "SE 556677-8501", "556677-8501")]
+	[InlineData(true, "SE556677-8501", "556677-8501")]
+	[InlineData(true, "SE 5566778501", "556677-8501")]
+	[InlineData(true, "SE5566778501", "556677-8501")]
+	[InlineData(true, "5566778501", "556677-8501")]
 	[InlineData(false, "5566778898", "")]
 	public void TryParseTest(bool expectedValid, string input, string expectNational)
 	{
