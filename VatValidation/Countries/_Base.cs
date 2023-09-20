@@ -19,10 +19,11 @@ public abstract class CountryBase : ICountry
 	public virtual int MinLengthVat => MinLength + 2;
 
 	/// <summary>Only called if <see cref="CC"/> and <see cref="MinLengthVat"/> matches</summary>
-	protected virtual string GetVatInner(string input) => input[2..];
+	protected virtual string GetVatInner(string input) => input[2..].Trim();
 
 	public virtual bool TryParse(string input, out VatNumber vat)
 	{
+		input = input.Trim();
 		if (input.Length < MinLength)
 		{
 			vat = VatNumber.Empty;

@@ -19,7 +19,8 @@ public class SE : CountryBase
 
 	protected override string GetVatInner(string input)
 	{
-		if (input.EndsWith("01"))
+		var ints = GetIntsFromString(input);
+		if (ints.Length == MinLength + 2 && input.EndsWith("01"))
 		{
 			input = input[2..];
 			input = input[..^2];
