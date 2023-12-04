@@ -77,12 +77,14 @@ jobs:
           path: code-coverage-results.md
 
       - name: NuGet Package ${{ github.repository_owner }} ${{ env.version }}
+        run: |
+          dotnet pack VatValidation/VatValidation.csproj ${{ env.buildopts }} --verbosity normal --output .
+          ls -lh *nupkg
+      - name: NuGet Package Upload ${{ github.repository_owner }} ${{ env.version }}
         if: github.event_name == 'release'
         env:
           ghnuget: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         run: |
-          dotnet pack VatValidation/VatValidation.csproj ${{ env.buildopts }} --verbosity normal --output .
-          ls -lh *nupkg
           dotnet nuget push *.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.ghnuget }} --skip-duplicate
           dotnet nuget push *.snupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.ghnuget }} --skip-duplicate
           dotnet nuget push *.nupkg --api-key ${{ secrets.NUGETKEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
