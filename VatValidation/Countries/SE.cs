@@ -7,6 +7,7 @@ public class SE : CountryBase
 
 	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
 
+	internal static bool Valid(ReadOnlySpan<int> digits) => Valid(digits.ToArray());
 	internal static bool Valid(int[] digits) => digits.Length == 10 && LuhnSum(digits) == 0;
 
 	public override string CC => nameof(SE);

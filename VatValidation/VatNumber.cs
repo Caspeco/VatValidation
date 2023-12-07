@@ -31,7 +31,7 @@ public readonly struct VatNumber
 
 	public string FormatNumbersOnly => CountryBase.ToStr(GetInts());
 
-	public int[] GetInts() => CountryBase.GetIntsFromString(_vatNumber);
+	public ReadOnlySpan<int> GetInts() => CountryBase.GetIntsFromString(_vatNumber);
 
 	public static implicit operator string(VatNumber vatNumber) => vatNumber._vatNumber;
 	public static implicit operator VatNumber(string vatNumber) => new(vatNumber);

@@ -31,10 +31,10 @@ public class NL : CountryBase
 			return false;
 		if (btw.Any(c => !charset.Contains(c)))
 			return false;
-		return ValidCommercial(GetIntsFromString(btw[..9])) || ValidPersonal(btw);
+		return ValidCommercial(GetIntsFromString(btw[..9]).ToArray()) || ValidPersonal(btw);
 	}
 
-	private static readonly int[] _multipliers = new int[] { 9, 8, 7, 6, 5, 4, 3, 2, -1 };
+	private static readonly int[] _multipliers = [9, 8, 7, 6, 5, 4, 3, 2, -1];
 
 	// includes old personal
 	private static bool ValidCommercial(int[] digits) =>

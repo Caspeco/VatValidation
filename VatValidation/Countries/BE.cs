@@ -14,12 +14,12 @@ public class BE : CountryBase
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, d => $"{ToStr(d[0..^6])}.{ToStr(d[^6..^3])}.{ToStr(d[^3..])}");
 
-	private static int[] FixLen(int[] d) => d.Length == 9 ? new int[] { 0 }.Concat(d).ToArray() : d;
+	private static ReadOnlySpan<int> FixLen(ReadOnlySpan<int> d) => d.Length == 9 ? new int[] { 0 }.Concat(d.ToArray()).ToArray() : d;
 
-	private static bool ValidFormat(int[] d) => d.Length == 9 || (d.Length == 10 && (d[0] == 0 || d[1] == 1));
+	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 || (d.Length == 10 && (d[0] == 0 || d[1] == 1));
 
 	// https://www.fiducial.be/nl/news/Hoe-kunt-u-weten-of-uw-klant-u-een-correct-BTW-nummer-gaf
-	internal static bool Valid(int[] digits) =>
+	internal static bool Valid(ReadOnlySpan<int> digits) =>
 		ValidFormat(digits) && (
 		Convert.ToInt32(ToStr(digits[..^2])) +
 		Convert.ToInt32(ToStr(digits[^2..]))) % 97 == 0;

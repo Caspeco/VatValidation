@@ -14,12 +14,13 @@ public class PT : CountryBase
 
 	public override string FormatVat(VatNumber vat) => $"{CC} {FormatNational(vat)}";
 
-	private static readonly int[] _multipliers = new int[] { 9, 8, 7, 6, 5, 4, 3, 2 };
+	private static readonly int[] _multipliers = [9, 8, 7, 6, 5, 4, 3, 2];
 
 	private static bool ValidFormat(int[] d) => d.Length == 9 && d[0] != 0;
 
 	// https://pt.wikipedia.org/wiki/N%C3%BAmero_de_identifica%C3%A7%C3%A3o_fiscal
-	public static bool Valid(int[] digits)
+	internal static bool Valid(ReadOnlySpan<int> digits) => Valid(digits.ToArray());
+	internal static bool Valid(int[] digits)
 	{
 		if (!ValidFormat(digits))
 			return false;

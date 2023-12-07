@@ -47,14 +47,18 @@ public abstract class CountryBase : ICountry
 		return true;
 	}
 
-	private static string Format(int[] d, VatNumber vat, Func<int[], bool> v, Func<int[], string> f) => v(d) ? f(d) : vat;
-	protected static string Format(VatNumber vat, Func<int[], bool> valid, Func<int[], string> formatValid) =>
+	protected delegate bool SpanBool(ReadOnlySpan<int> d);
+	protected delegate string SpanString(ReadOnlySpan<int> d);
+
+	private static string Format(ReadOnlySpan<int> d, VatNumber vat, SpanBool v, SpanString f) => v(d) ? f(d) : vat;
+	protected static string Format(VatNumber vat, SpanBool valid, SpanString formatValid) =>
 		Format(vat.GetInts(), vat, valid, formatValid);
 
-	public static int[] GetIntsFromString(string s) => s.Select(c => c - '0')
-		.Where(x => 0 <= x && x <= 9).ToArray();
+	public static ReadOnlySpan<int> GetIntsFromString(string s) => s.Select(c => c - '0')
+		.Where(x => 0 <= x && x <= 9).ToArray().AsSpan();
 
 	public static string ToStr(int[] ints) => string.Join("", ints);
+	public static string ToStr(ReadOnlySpan<int> ints) => string.Join("", ints.ToArray());
 
 	protected static int LuhnSum(int[] digits)
 	{
