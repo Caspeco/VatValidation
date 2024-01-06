@@ -7,7 +7,6 @@ public class BE : CountryBase
 
 	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
 
-	public override string CC => nameof(BE);
 	public override int MinLength => 9;
 
 	public override string FormatStripped(VatNumber vat) => ToStr(FixLen(vat.GetInts()));

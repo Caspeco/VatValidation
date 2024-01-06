@@ -7,7 +7,6 @@ public class NO : CountryBase
 
 	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
 
-	public override string CC => nameof(NO);
 	public override int MinLength => 9;
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, d => $"{ToStr(d[0..3])} {ToStr(d[3..6])} {ToStr(d[6..9])}");

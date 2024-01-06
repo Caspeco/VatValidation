@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace VatValidation.Tests;
 
 public class CountryGetterTests
@@ -13,9 +15,18 @@ public class CountryGetterTests
 		Assert.Equal(expectedCc, instance.CC);
 	}
 
-	[Fact]
-	public void GetCountryTypes()
+	public static TheoryData<string> GetCountrieCodes() => new(Countries.CountryBase.CcInstances.Keys);
+
+	[Theory]
+	[MemberData(nameof(GetCountrieCodes))]
+	public void ValidateCountryTypesAndCcTest(string ccKey)
 	{
-		Console.WriteLine(string.Join("\n", Countries.CountryBase.CcInstances.Values.Select(t => t!.CC)));
+		var inst = Countries.CountryBase.CcInstances[ccKey];
+		var cc = inst.CC;
+		var region = new RegionInfo(cc);
+		Console.WriteLine($"{ccKey} -> {inst.GetType().FullName} ({cc}) Region: {region.EnglishName} {region.Name} {region.TwoLetterISORegionName}");
+		Assert.Equal(cc, ccKey);
+		Assert.Equal(cc, inst.GetType().Name);
+		Assert.Equal(cc, region.TwoLetterISORegionName);
 	}
 }

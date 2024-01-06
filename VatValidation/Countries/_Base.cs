@@ -13,7 +13,8 @@ public abstract class CountryBase : ICountry
 
 	public virtual string FormatVat(VatNumber vat) => $"{CC} {FormatStripped(vat)}";
 
-	public abstract string CC { get; }
+	private string? _ccCache;
+	public virtual string CC => _ccCache ??= string.Intern(GetType().Name);
 	public abstract int MinLength { get; }
 	/// <summary>Length including country code any anything else required in VAT format</summary>
 	public virtual int MinLengthVat => MinLength + 2;

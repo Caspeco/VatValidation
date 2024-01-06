@@ -7,7 +7,6 @@ public class NL : CountryBase
 
 	public override bool Valid(VatNumber vat) => Valid((string?)vat ?? string.Empty);
 
-	public override string CC => nameof(NL);
 	public override int MinLength => 12;
 
 	public override string FormatStripped(VatNumber vat) => string.Join("", ((string)vat).Where(charset.Contains))[^12..];
