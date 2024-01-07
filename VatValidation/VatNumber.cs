@@ -3,13 +3,11 @@ using VatValidation.Countries;
 namespace VatValidation;
 
 [System.Diagnostics.DebuggerDisplay("{_vatNumber} {CC} {Valid}")]
-public readonly struct VatNumber
+public readonly struct VatNumber(string vatNumber) : IEquatable<VatNumber>
 {
 	public static readonly VatNumber Empty = new(string.Empty);
-	private readonly string _vatNumber;
+	private readonly string _vatNumber = vatNumber;
 	private readonly ICountry? _country;
-
-	public VatNumber(string vatNumber) => _vatNumber = vatNumber;
 
 	public VatNumber(ICountry country, string vatNumber)
 		: this(vatNumber)
@@ -37,6 +35,13 @@ public readonly struct VatNumber
 	public static implicit operator VatNumber(string vatNumber) => new(vatNumber);
 
 	public override string ToString() => _vatNumber;
+
+	public bool Equals(VatNumber other) => (CC is null || other.CC is null || CC == other.CC)
+		&& VatStripped._vatNumber == other.VatStripped._vatNumber;
+	public override int GetHashCode() => VatStripped._vatNumber.GetHashCode() * 13 + (CC?.GetHashCode() ?? 0);
+	public override bool Equals(object? other) => Equals(other as VatNumber? ?? Empty);
+	public static bool operator ==(VatNumber vat1, VatNumber vat2) => vat1.Equals(vat2);
+	public static bool operator !=(VatNumber vat1, VatNumber vat2) => !vat1.Equals(vat2);
 
 	public static bool TryParse(string input, out VatNumber vat)
 	{
