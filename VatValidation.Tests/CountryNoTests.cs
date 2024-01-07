@@ -7,8 +7,9 @@ public class CountryNoTests
 	[InlineData(true, "977 074 010", "977 074 010", "NO 977 074 010")]
 	[InlineData(false, "977074011", "977074011", "NO 977074011")]
 	[InlineData(false, "977 074 011", "977 074 011", "NO 977 074 011")]
-	[InlineData(false, "977 074 01", "977 074 01", "NO 977 074 01")]
-	[InlineData(false, "97707401", "97707401", "NO 97707401")]
+	[InlineData(false, "977 074 01", "977 074 01", "")]
+	[InlineData(false, "97707401", "97707401", "")]
+	[InlineData(false, "777074016", "777074016", "")]
 	public void VatTest(bool expectedValid, string input, string expectNational, string expectVat)
 	{
 		var vat = new VatNumber(Countries.NO.Instance, input);
@@ -24,6 +25,7 @@ public class CountryNoTests
 	[InlineData(true, "NO 977 074 010MVA", "977 074 010")]
 	[InlineData(true, "NO977074010", "977 074 010")]
 	[InlineData(true, "977074010", "977 074 010")]
+	[InlineData(false, "977074011", "")]
 	public void TryParseTest(bool expectedValid, string input, string expectNational)
 	{
 		Assert.Equal(expectedValid, VatNumber.TryParse(input, out var vat));
