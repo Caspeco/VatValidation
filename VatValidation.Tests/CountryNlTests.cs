@@ -9,6 +9,8 @@ public class CountryNlTests
 	[InlineData(true, "824155890B01", "NL824155890B01", "NL824155890B01", "824155890B01")]
 	[InlineData(false, "824155891B01", "824155891B01", "NL824155891B01", "824155891B01")]
 	[InlineData(false, "NL824155891B01", "NL824155891B01", "NL824155891B01", "824155891B01")]
+	[InlineData(false, "NL82x155891B01", "NL82x155891B01", "", "82155891B01")]
+	[InlineData(false, "NL82x155891", "NL82x155891", "", "NL82155891")]
 	public void VatTest(bool expectedValid, string input, string expectNational, string expectVat, string expectedStriped)
 	{
 		var vat = new VatNumber(Countries.NL.Instance, input);
@@ -31,7 +33,8 @@ public class CountryNlTests
 	[Theory]
 	[InlineData(true, "861994772B01", "NL861994772B01", "NL861994772B01", "861994772B01")]
 	[InlineData(true, "86 1994772B01", "NL861994772B01", "NL861994772B01", "861994772B01")]
-	[InlineData(false, "861994772C01", "NL861994772C01", "NL861994772C01", "861994772C01")]
+	[InlineData(false, "861994772C01", "NL861994772C01", "", "861994772C01")]
+	[InlineData(false, "861994772B", "NL861994772B", "", "861994772B")]
 	public void VatStripValidNational(bool expectedValid, string input, string expectNational, string expectVat, string expectedStriped)
 	{
 		var vat = new VatNumber(Countries.NL.Instance, input);
