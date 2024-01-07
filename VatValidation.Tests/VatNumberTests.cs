@@ -24,6 +24,21 @@ public class VatNumberTests
 		Assert.Equal(expected, Equals(vat1, vat2));
 		Assert.Equal(expected, vat1 == vat2);
 		Assert.Equal(!expected, vat1 != vat2);
+		Assert.False(Equals(vat1, null));
+
+		try
+		{
+			// GetHashCode verification test
+			var d = new Dictionary<VatNumber, string>
+				{
+					{ vat1, vatstr1 },
+					{ vat2, vatstr2 }
+				};
+			Assert.False(expected); // if equals we should have gotten exception
+		}
+		catch (ArgumentException) when (expected) // ignore expected exception only if expected
+		{
+		}
 	}
 
 	[Theory]

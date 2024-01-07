@@ -30,6 +30,8 @@ public class CountryNlTests
 	// formatted with leading zero after strip for national
 	[Theory]
 	[InlineData(true, "861994772B01", "NL861994772B01", "NL861994772B01", "861994772B01")]
+	[InlineData(true, "86 1994772B01", "NL861994772B01", "NL861994772B01", "861994772B01")]
+	[InlineData(false, "861994772C01", "NL861994772C01", "NL861994772C01", "861994772C01")]
 	public void VatStripValidNational(bool expectedValid, string input, string expectNational, string expectVat, string expectedStriped)
 	{
 		var vat = new VatNumber(Countries.NL.Instance, input);
@@ -44,6 +46,8 @@ public class CountryNlTests
 
 	[Theory]
 	[InlineData(true, "861994772B01", "NL861994772B01")]
+	[InlineData(true, "861994772B02", "NL861994772B02")]
+	[InlineData(false, "861994772C02", "")]
 	public void TryParseTest(bool expectedValid, string input, string expectNational)
 	{
 		Assert.Equal(expectedValid, VatNumber.TryParse(input, out var vat));

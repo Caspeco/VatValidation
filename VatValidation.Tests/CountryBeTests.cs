@@ -37,7 +37,9 @@ public class CountryBeTests
 	[InlineData(true, "0566988259", "0566.988.259", "BE 0566988259", "0566988259")]
 	[InlineData(true, "566.988.259", "0566.988.259", "BE 0566988259", "0566988259")]
 	[InlineData(true, "0427.155.930", "0427.155.930", "BE 0427155930", "0427155930")]
-	[InlineData(true, "427.155.930", "0427.155.930", "BE 0427155930", "0427155930")]
+	[InlineData(true, "427 155 930", "0427.155.930", "BE 0427155930", "0427155930")]
+	[InlineData(false, "427.155.931", "0427.155.931", "BE 0427155931", "0427155931")]
+	[InlineData(false, "427 155 931", "0427.155.931", "BE 0427155931", "0427155931")]
 	public void VatStripValidNational(bool expectedValid, string input, string expectNational, string expectVat, string expectedStriped)
 	{
 		var vat = new VatNumber(Countries.BE.Instance, input);

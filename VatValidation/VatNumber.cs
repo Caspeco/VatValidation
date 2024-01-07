@@ -27,8 +27,6 @@ public readonly struct VatNumber(string vatNumber) : IEquatable<VatNumber>
 
 	public VatNumber VatStripped => _country is null ? new(FormatStripped) : new(_country, FormatStripped);
 
-	public string FormatNumbersOnly => CountryBase.ToStr(GetInts());
-
 	public ReadOnlySpan<int> GetInts() => CountryBase.GetIntsFromString(_vatNumber);
 
 	public static implicit operator string(VatNumber vatNumber) => vatNumber._vatNumber;
