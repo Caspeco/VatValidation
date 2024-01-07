@@ -45,6 +45,12 @@ public class CountrySeTests
 	[InlineData(false, "566988259", "")] // BE number, also matches NO
 	public void TryParseTest(bool expectedValid, string input, string expectNational)
 	{
+		var vat1 = VatNumber.Get("SE", input);
+		if (expectedValid)
+			Assert.Equal(expectedValid, vat1.Valid);
+		// vat1 could be valid b
+		var vat2 = VatNumber.Get(null, input);
+		Assert.Equal(expectedValid, vat2.Valid);
 		Assert.Equal(expectedValid, VatNumber.TryParse(input, out var vat));
 		Console.WriteLine($"cc: {vat.CC} nat: {vat.FormatNational} vat: {vat.FormatVat}");
 		Assert.Equal(expectedValid ? "SE" : null, vat.CC);

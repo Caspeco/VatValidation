@@ -62,4 +62,11 @@ public readonly struct VatNumber
 
 		return ccInstance.TryParse(input, out vat);
 	}
+
+	public static VatNumber Get(string? cc, string orgno) =>
+		(cc is not null && cc.Length == 2 && orgno.Length >= 4 && !orgno[..2].Equals(cc, StringComparison.InvariantCultureIgnoreCase) &&
+		TryParse($"{cc} {orgno}", out var vat)) ||
+		TryParse(orgno, out vat)
+		? vat
+		: Empty;
 }
