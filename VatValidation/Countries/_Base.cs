@@ -60,7 +60,7 @@ public abstract class CountryBase : ICountry
 
 	public static string ToStr(ReadOnlySpan<int> ints) => string.Join("", ints.ToArray());
 
-	protected static int LuhnSum(int[] digits)
+	protected static int LuhnSum(ReadOnlySpan<int> digits)
 	{
 		int sm = 0;
 		for (int i = digits.Length - 1; i >= 0; i--)
