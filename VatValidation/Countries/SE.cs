@@ -5,7 +5,7 @@ public class SE : CountryBase
 	private SE() { }
 	public static ICountry Instance { get; } = new SE();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
+	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
 
 	internal static bool Valid(ReadOnlySpan<int> digits) => digits.Length == 10 && LuhnSum(digits) == 0;
 

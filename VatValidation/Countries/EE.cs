@@ -5,7 +5,7 @@ public class EE : CountryBase
 	private EE() { }
 	public static ICountry Instance { get; } = new EE();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
+	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
 
 	public override int MinLength => 9;
 

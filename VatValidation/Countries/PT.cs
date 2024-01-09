@@ -5,7 +5,7 @@ public class PT : CountryBase
 	private PT() { }
 	public static ICountry Instance { get; } = new PT();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
+	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
 
 	public override int MinLength => 9;
 
