@@ -5,6 +5,7 @@ public class CountryNoTests
 	[Theory]
 	[InlineData(true, "977074010", "977 074 010", "NO 977 074 010")]
 	[InlineData(true, "977 074 010", "977 074 010", "NO 977 074 010")]
+	[InlineData(false, "977 074 010x", "977 074 010", "NO 977 074 010")]
 	[InlineData(false, "977074011", "977074011", "NO 977074011")]
 	[InlineData(false, "977 074 011", "977 074 011", "NO 977 074 011")]
 	[InlineData(false, "977 074 01", "977 074 01", "")]

@@ -5,7 +5,7 @@ public class DK : CountryBase
 	private DK() { }
 	public static ICountry Instance { get; } = new DK();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
+	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
 
 	public override int MinLength => 8;
 

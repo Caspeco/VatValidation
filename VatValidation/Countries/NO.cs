@@ -5,7 +5,7 @@ public class NO : CountryBase
 	private NO() { }
 	public static ICountry Instance { get; } = new NO();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetInts());
+	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
 
 	public override int MinLength => 9;
 

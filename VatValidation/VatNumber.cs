@@ -28,6 +28,11 @@ public readonly struct VatNumber(string vatNumber) : IEquatable<VatNumber>
 	public VatNumber VatStripped => _country is null ? new(FormatStripped) : new(_country, FormatStripped);
 
 	public ReadOnlySpan<int> GetInts() => CountryBase.GetIntsFromString(_vatNumber);
+	private string CleanCcVatNumber => CC?.Length == 2 && _vatNumber.StartsWith(CC) ? _vatNumber[2..].Trim() : _vatNumber;
+	private static string CleanMva(string s) => s.Trim().EndsWith("MVA") ? s[..^3].Trim() : s;
+	private bool HasUnexpectedLetter => CleanMva(CleanCcVatNumber).Any(char.IsLetter);
+	/// <summary>Get ints of string, but only if it does not have other letters in it</summary>
+	public ReadOnlySpan<int> GetIntsIfNoChars() => HasUnexpectedLetter ? [] : GetInts();
 
 	public static implicit operator string(VatNumber vatNumber) => vatNumber._vatNumber;
 	public static implicit operator VatNumber(string vatNumber) => new(vatNumber);
