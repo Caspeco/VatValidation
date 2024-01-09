@@ -15,10 +15,22 @@ public class CountryGetterTests
 		Assert.Equal(expectedCc, instance.CC);
 	}
 
-	public static TheoryData<string> GetCountrieCodes() => new(Countries.CountryBase.CcInstances.Keys);
+	public static TheoryData<string> GetCountryCodes() => new(Countries.CountryBase.CcInstances.Keys);
+
+	[Fact]
+	public void EnsureGetCountrieCodesTest()
+	{
+		foreach (var obj in GetCountryCodes())
+		{
+			var cc = (string)obj[0];
+			var region = new RegionInfo(cc);
+			Console.WriteLine($"{cc} -> Region: {region.EnglishName} {region.Name} {region.TwoLetterISORegionName}");
+			Assert.Equal(cc, region.TwoLetterISORegionName);
+		}
+	}
 
 	[Theory]
-	[MemberData(nameof(GetCountrieCodes))]
+	[MemberData(nameof(GetCountryCodes))]
 	public void ValidateCountryTypesAndCcTest(string ccKey)
 	{
 		var inst = Countries.CountryBase.CcInstances[ccKey];
