@@ -16,9 +16,9 @@ public class NO : CountryBase
 	private static readonly int[] _multipliers = [3, 2, 7, 6, 5, 4, 3, 2, 1];
 
 	// https://vatstack.com/articles/norway-vat-number-validation
-	private static bool ValidFormat(int[] d) => d.Length == 9 && (d[0] == 8 || d[0] == 9);
-	internal static bool Valid(ReadOnlySpan<int> digits) => Valid(digits.ToArray());
-	internal static bool Valid(int[] digits) => ValidFormat(digits) &&
+	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 && (d[0] == 8 || d[0] == 9);
+	internal static bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
+	private static bool Valid(int[] digits) =>
 		(11 - digits
 		.Zip(_multipliers, (d, m) => d * m)
 		.Sum() % 11) % 11 == 0;
