@@ -1,4 +1,5 @@
 using Towel;
+using Xunit.Abstractions;
 
 namespace VatValidation.Tests;
 
@@ -12,11 +13,10 @@ public class TestcasesFromXmlComments
 		return true;
 	}
 
-	private static void AddTestcasesFromTypeXmlData(TheoryData<string, string> cases, Countries.ICountry inst)
+	private static void AddTestcasesFromTypeXmlData(TheoryData<string, TestData> cases, Countries.ICountry inst)
 	{
 		Console.WriteLine($"{nameof(AddTestcasesFromTypeXmlData)} {inst.CC}");
 		var documentation = inst.GetType().GetDocumentation()?.Trim();
-		//	Assert.NotNull(documentation);
 		Assert.NotEqual("", documentation);
 		if (string.IsNullOrEmpty(documentation))
 			return;
@@ -38,26 +38,44 @@ public class TestcasesFromXmlComments
 				break;
 			}
 
-			var test = GetTestFromTestLine(inst.CC, line);
+			var data = new TestData(line);
+			var test = GetTestFromTestLine(inst.CC, data);
 			Assert.NotNull(test);
 
-			cases.Add(inst.CC, line);
+			cases.Add(inst.CC, data);
 		}
 	}
 
-	private class TestData
+	public class TestData : IXunitSerializable
 	{
-		public readonly string? Input;
-		public readonly bool ExpectedValid;
-		public readonly bool ExpectedValidStripped;
-		public readonly string? ExpectedNational;
-		public readonly string? ExpectedVat;
-		public readonly string? ExpectedStripped;
-		public readonly string? ExpectedVatStripped;
-		public readonly bool DontTryParseOnInput = false;
+		public string? Input { get; private set; }
+		public bool ExpectedValid { get; private set; }
+		public bool ExpectedValidStripped { get; private set; }
+		public string? ExpectedNational { get; private set; }
+		public string? ExpectedVat { get; private set; }
+		public string? ExpectedStripped { get; private set; }
+		public string? ExpectedVatStripped { get; private set; }
+		public bool DontTryParseOnInput { get; private set; } = false;
+		public string? Comment { get; private set; }
 
-		public TestData(string line)
+		private string? Line;
+
+		public TestData() { } // for IXunitSerializable
+
+		public TestData(string line) => ParseLine(line);
+
+		/// <inheritdoc />
+		public void Deserialize(IXunitSerializationInfo info) => ParseLine(info.GetValue<string>(nameof(Line)));
+
+		/// <inheritdoc />
+		public void Serialize(IXunitSerializationInfo info)
 		{
+			info.AddValue(nameof(Line), Line);
+		}
+
+		private void ParseLine(string line)
+		{
+			Line = line;
 			Console.WriteLine($"Generating testdata from {line}");
 			var spl = line.Split(',').Select(f => f.Trim()).ToArray();
 			Console.WriteLine(string.Join("|", spl));
@@ -75,6 +93,7 @@ public class TestcasesFromXmlComments
 				else if (kcspl[0] == "stripped" && kcspl.Length == 2) ExpectedStripped = kcspl[1];
 				else if (kcspl[0] == "vatstripped" && kcspl.Length == 2) ExpectedVatStripped = kcspl[1];
 				else if (cspl == "dontTryParse") DontTryParseOnInput = true;
+				else if (kcspl[0] == "comment" && kcspl.Length == 2) Comment = kcspl[1];
 				else
 				{
 					Assert.Fail($"Unknown {cspl}");
@@ -86,12 +105,14 @@ public class TestcasesFromXmlComments
 			Assert.NotNull(ExpectedVat);
 			Assert.NotNull(ExpectedStripped);
 		}
+
+		public override string ToString() => $"{Comment} {Line}".Trim();
 	}
 
-	private static IEnumerable<Action> GetTestFromTestLine(string cc, string line)
+	private static IEnumerable<Action> GetTestFromTestLine(string cc, TestData data)
 	{
+		Console.WriteLine(data.ToString());
 		var instance = Countries.CountryBase.CcInstances[cc];
-		var data = new TestData(line);
 		yield return () => // VatTest
 		{
 			var vat = new VatNumber(instance, data.Input!);
@@ -145,9 +166,9 @@ public class TestcasesFromXmlComments
 		}
 	}
 
-	public static TheoryData<string, string> GetCountryTestCases()
+	public static TheoryData<string, TestData> GetCountryTestCases()
 	{
-		var cases = new TheoryData<string, string>();
+		var cases = new TheoryData<string, TestData>();
 		foreach (var inst in Countries.CountryBase.CcInstances.Values)
 		{
 			AddTestcasesFromTypeXmlData(cases, inst);
@@ -164,7 +185,7 @@ public class TestcasesFromXmlComments
 	{
 		// populates testdata per country
 		var inst = Countries.CountryBase.CcInstances[ccKey];
-		var cases = new TheoryData<string, string>();
+		var cases = new TheoryData<string, TestData>();
 		AddTestcasesFromTypeXmlData(cases, inst);
 		foreach (var cs in cases)
 		{
@@ -185,8 +206,8 @@ public class TestcasesFromXmlComments
 
 	[Theory]
 	[MemberData(nameof(GetCountryTestCases))]
-	public void GetXmlDocumentationTest(string ccKey, string testline)
+	public void GetXmlDocumentationTest(string ccKey, TestData data)
 	{
-		Assert.Multiple(GetTestFromTestLine(ccKey, testline).ToArray());
+		Assert.Multiple(GetTestFromTestLine(ccKey, data).ToArray());
 	}
 }
