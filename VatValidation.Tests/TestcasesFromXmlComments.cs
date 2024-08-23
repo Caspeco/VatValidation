@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using Towel;
 using Xunit.Abstractions;
 
@@ -5,40 +6,31 @@ namespace VatValidation.Tests;
 
 public class TestcasesFromXmlComments
 {
-	private static bool IsLine(string line, string wanted)
-	{
-		if (!line.Contains(wanted))
-			return false;
-		if (line != wanted) throw new Exception(line);
-		return true;
-	}
+	private static IEnumerable<string> GetElementsLines(IEnumerable<XElement>? elms) =>
+		elms?.SelectMany(e => e.Nodes().SelectMany(n => n.ToString().Trim().Split('\n').Select(l => l.Trim()))) ?? [];
 
 	private static void AddTestcasesFromTypeXmlData(TheoryData<string, TestData> cases, Countries.ICountry inst)
 	{
 		Console.WriteLine($"{nameof(AddTestcasesFromTypeXmlData)} {inst.CC}");
 		var documentation = inst.GetType().GetDocumentation()?.Trim();
+		if (documentation is null)
+			Console.WriteLine("all implementations must at least have basic XML testcases");
+		Assert.NotNull(documentation);
 		Assert.NotEqual("", documentation);
-		if (string.IsNullOrEmpty(documentation))
-			return;
-		Assert.Contains("<testcases>", documentation);
-		Assert.Contains("</testcases>", documentation);
-		var inTestcasesSection = false;
-		foreach (var l in documentation.Split('\n'))
-		{
-			var line = l.Trim();
-			if (IsLine(line, "<testcases>"))
-			{
-				inTestcasesSection = true;
-				continue;
-			}
-			else if (!inTestcasesSection)
-				continue;
-			if (IsLine(line, "</testcases>"))
-			{
-				break;
-			}
+		var xmlo = XElement.Parse($"<root>{documentation}</root>");
+		var testcases = xmlo.Elements("testcases");
+		Assert.Single(testcases);
+		var testcaserows = GetElementsLines(testcases)?.ToList() ?? [];
 
-			var data = new TestData(line);
+		var countryElms = xmlo.Elements("country");
+		Assert.Single(countryElms);
+		var region = new System.Globalization.RegionInfo(inst.CC);
+		var country = region.EnglishName;
+		Assert.Equal(country, string.Join('\n', GetElementsLines(countryElms)));
+
+		foreach (var l in testcaserows)
+		{
+			var data = new TestData(l);
 			var test = GetTestFromTestLine(inst.CC, data);
 			Assert.NotNull(test);
 
