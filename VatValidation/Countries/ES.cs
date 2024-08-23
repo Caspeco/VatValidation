@@ -1,6 +1,7 @@
 
 namespace VatValidation.Countries;
 
+/// <country>Spain</country>
 /// <testcases>
 /// valid, in: A58818501, national: A58818501, vat: ES A58818501, stripped: A58818501
 /// invalid, in: A58818502, national: A58818502, vat: ES A58818502, stripped: A58818502
