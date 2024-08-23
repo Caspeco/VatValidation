@@ -49,6 +49,7 @@ public class TestcasesFromXmlComments
 	{
 		public readonly string? Input;
 		public readonly bool ExpectedValid;
+		public readonly bool ExpectedValidStripped;
 		public readonly string? ExpectedNational;
 		public readonly string? ExpectedVat;
 		public readonly string? ExpectedStripped;
@@ -65,8 +66,9 @@ public class TestcasesFromXmlComments
 			{
 				var cspl = spl[i];
 				var kcspl = cspl.Split([':'],2).Select(f => f.Trim()).ToArray();
-				if (cspl == "valid") ExpectedValid = true;
-				else if (cspl == "invalid") ExpectedValid = false;
+				if (cspl == "valid") ExpectedValidStripped = ExpectedValid = true;
+				else if (cspl == "invalid") ExpectedValidStripped = ExpectedValid = false;
+				else if (cspl == "strippedvalid") ExpectedValidStripped = true;
 				else if (kcspl[0] == "in" && kcspl.Length == 2) Input = kcspl[1];
 				else if (kcspl[0] == "national" && kcspl.Length == 2) ExpectedNational = kcspl[1];
 				else if (kcspl[0] == "vat" && kcspl.Length == 2) ExpectedVat = kcspl[1];
@@ -106,7 +108,7 @@ public class TestcasesFromXmlComments
 			Console.WriteLine($"cc: {vat.CC} nat: {vat.FormatNational} vat: {vat.FormatVat}");
 
 			var vatStrip = vat.VatStripped;
-			Assert.Equal(data.ExpectedValid, vatStrip.Valid);
+			Assert.Equal(data.ExpectedValidStripped, vatStrip.Valid);
 			Assert.Equal(data.ExpectedStripped, (string)vatStrip);
 			// Formatted if valid, otherwise original data
 			if (!vatStrip.Valid)
@@ -120,12 +122,12 @@ public class TestcasesFromXmlComments
 		{
 			yield return () => // TryParse Known VAT
 			{
-				Assert.Equal(data.ExpectedValid, VatNumber.TryParse(data.ExpectedVat!, out var vat));
+				Assert.Equal(data.ExpectedValidStripped, VatNumber.TryParse(data.ExpectedVat!, out var vat));
 				Console.WriteLine($"cc: {vat.CC} nat: {vat.FormatNational} vat: {vat.FormatVat}");
-				Assert.Equal(data.ExpectedValid ? instance.CC : null, vat.CC);
-				Assert.Equal(data.ExpectedValid, vat.Valid);
-				Assert.Equal(data.ExpectedValid ? data.ExpectedVat : "", vat.FormatVat);
-				Assert.Equal(data.ExpectedValid ? data.ExpectedNational : "", vat.FormatNational);
+				Assert.Equal(data.ExpectedValidStripped ? instance.CC : null, vat.CC);
+				Assert.Equal(data.ExpectedValidStripped, vat.Valid);
+				Assert.Equal(data.ExpectedValidStripped ? data.ExpectedVat : "", vat.FormatVat);
+				Assert.Equal(data.ExpectedValidStripped ? data.ExpectedNational : "", vat.FormatNational);
 			};
 		}
 
@@ -185,7 +187,6 @@ public class TestcasesFromXmlComments
 	[MemberData(nameof(GetCountryTestCases))]
 	public void GetXmlDocumentationTest(string ccKey, string testline)
 	{
-		foreach (var func in GetTestFromTestLine(ccKey, testline))
-			func();
+		Assert.Multiple(GetTestFromTestLine(ccKey, testline).ToArray());
 	}
 }
