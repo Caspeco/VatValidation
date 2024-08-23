@@ -1,5 +1,22 @@
+
 namespace VatValidation.Countries;
 
+/// <country>Netherlands</country>
+/// <testcases>
+/// valid, in: 004495445B01, national: NL004495445B01, stripped: 004495445B01, vat: NL004495445B01, vatstripped: NL004495445B01
+/// valid, in: NL004495445B01, national: NL004495445B01, stripped: 004495445B01, vat: NL004495445B01, vatstripped: NL004495445B01
+/// valid, in: 824155890B08, national: NL824155890B08, stripped: 824155890B08, vat: NL824155890B08, vatstripped: NL824155890B08
+/// valid, in: 824155890B01, national: NL824155890B01, stripped: 824155890B01, vat: NL824155890B01, vatstripped: NL824155890B01
+/// invalid, in: 824155891B01, national: 824155891B01, stripped: 824155891B01, vat: NL824155891B01, vatstripped: NL824155891B01
+/// invalid, in: NL824155891B01, national: NL824155891B01, stripped: 824155891B01, vat: NL824155891B01, vatstripped: NL824155891B01
+/// invalid, in: NL82x155891B01, national: NL82x155891B01, stripped: 82155891B01, vat: , vatstripped:
+/// invalid, in: NL82x155891, national: NL82x155891, stripped: NL82155891, vat: , vatstripped:
+/// valid, in: 861994772B01, national: NL861994772B01, stripped: 861994772B01, vat: NL861994772B01, vatstripped: NL861994772B01
+/// valid, in: 861994772B02, national: NL861994772B02, stripped: 861994772B02, vat: NL861994772B02, vatstripped: NL861994772B02
+/// invalid, in: 861994772C01, national: 861994772C01, stripped: 861994772C01, vat: , vatstripped:
+/// invalid, in: 861994772B, national: 861994772B, stripped: 861994772B, vat: , vatstripped:
+/// invalid, in: 861994772C02, national: 861994772C02, stripped: 861994772C02, vat: , vatstripped:
+/// </testcases>
 public class NL : CountryBase
 {
 	private NL() { }
