@@ -1,5 +1,19 @@
+
 namespace VatValidation.Countries;
 
+// tests of non leading zero dosnt play well with <testcases>, left in legacy testcases
+/// <country>Belgium</country>
+/// <testcases>
+/// valid, in: 0566.988.259, national: 0566.988.259, stripped: 0566988259, vat: BE 0566988259, vatstripped: BE 0566988259, dontTryParse, comment: Also matching SE
+/// valid, in: 0566988259, national: 0566.988.259, stripped: 0566988259, vat: BE 0566988259, vatstripped: BE 0566988259, dontTryParse, comment: Also matching SE
+/// valid, in: 0427.155.930, national: 0427.155.930, stripped: 0427155930, vat: BE 0427155930, vatstripped: BE 0427155930
+/// valid, in: 0427155930, national: 0427.155.930, stripped: 0427155930, vat: BE 0427155930, vatstripped: BE 0427155930
+/// invalid, in: 0566988258, national: 0566988258, stripped: 0566988258, vat: BE 0566988258, vatstripped: BE 0566988258
+/// valid, in: BE 0566988259, national: 0566.988.259, stripped: 0566988259, vat: BE 0566988259, vatstripped: BE 0566988259
+/// valid, in: BE0566988259, national: 0566.988.259, stripped: 0566988259, vat: BE 0566988259, vatstripped: BE 0566988259
+/// valid, in: BE0427155930, national: 0427.155.930, stripped: 0427155930, vat: BE 0427155930, vatstripped: BE 0427155930
+/// invalid, in: BE0566988258, national: BE0566988258, stripped: 0566988258, vat: BE 0566988258, vatstripped: BE 0566988258
+/// </testcases>
 public class BE : CountryBase
 {
 	private BE() { }
