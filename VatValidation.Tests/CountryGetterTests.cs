@@ -20,9 +20,8 @@ public class CountryGetterTests
 	[Fact]
 	public void EnsureGetCountrieCodesTest()
 	{
-		foreach (var obj in GetCountryCodes())
+		foreach (var cc in GetCountryCodes())
 		{
-			var cc = (string)obj[0];
 			var region = new RegionInfo(cc);
 			Console.WriteLine($"{cc} -> Region: {region.EnglishName} {region.Name} {region.TwoLetterISORegionName}");
 			Assert.Equal(cc, region.TwoLetterISORegionName);
