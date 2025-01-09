@@ -51,6 +51,13 @@ jobs:
           path: "**/test-results.trx"
           reporter: dotnet-trx
           fail-on-error: true
+      
+      - name: Report to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        continue-on-error: true
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: '**/coverage.cobertura.xml'
 
       - name: Code Coverage Report
         if: success() || failure()
