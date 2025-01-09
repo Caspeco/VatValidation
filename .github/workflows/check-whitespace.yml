@@ -1,0 +1,112 @@
+name: check-whitespace
+
+# Get the repository with all commits to ensure that we can analyze
+# all of the commits contributed via the Pull Request.
+# Process `git log --check` output to extract just the check errors.
+# Exit with failure upon white-space issues.
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+# Avoid unnecessary builds. Unlike the main CI jobs, these are not
+# ci-configurable (but could be).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  check-whitespace:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{github.event.pull_request.head.sha}}
+        fetch-depth: 0
+
+    - name: git log --check
+      id: check_out
+      run: |
+        baseSha=$(git merge-base ${{github.event.pull_request.head.sha}} ${{github.event.pull_request.base.sha}})
+        echo Using base $baseSha
+        problems=()
+        commit=
+        commitText=
+        commitTextmd=
+        goodparent=
+        while read dash sha etc
+        do
+          case "${dash}" in
+          "---")
+            if test -z "${commit}"
+            then
+              goodparent=${sha}
+            fi
+            commit="${sha}"
+            commitText="${sha} ${etc}"
+            commitTextmd="[${sha}](https://github.com/${{ github.repository }}/commit/${sha}) ${etc}"
+            ;;
+          "")
+            ;;
+          *)
+            if test -n "${commit}"
+            then
+              problems+=("1) --- ${commitTextmd}")
+              echo ""
+              echo "--- ${commitText}"
+              commit=
+            fi
+            case "${dash}" in
+            *:[1-9]*:) # contains file and line number information
+              dashend=${dash#*:}
+              problems+=("[${dash}](https://github.com/${{ github.repository }}/blob/${{github.event.pull_request.head.ref}}/${dash%%:*}#L${dashend%:}) ${sha} ${etc}")
+              ;;
+            *)
+              problems+=("\`${dash} ${sha} ${etc}\`")
+              ;;
+            esac
+            echo "${dash} ${sha} ${etc}"
+            ;;
+          esac
+        done <<< $(git -c "core.whitespace=cr-at-eol" log --check --pretty=format:"---% h% s" ${baseSha}..)
+
+        if test ${#problems[*]} -gt 0
+        then
+          if test -z "${commit}"
+          then
+            goodparent=${baseSha: 0:7}
+          fi
+          echo "­ƒøæ Please review the Summary output for further information."
+          echo "### :x: A whitespace issue was found in one or more of the commits." >pr.md
+          echo "" >>pr.md
+          echo "The only way to fix this properly is a rebase, adding \"fix commits\" will not help." >>pr.md
+          echo "" >>pr.md
+          echo "On the branch, run these commands:" >>pr.md
+          echo "\`\`\`bash" >>pr.md
+          echo "git fetch" >>pr.md
+          echo "git rebase --whitespace=fix ${goodparent}" >>pr.md
+          echo "git push --force-with-lease" >>pr.md
+          echo "\`\`\`" >>pr.md
+          echo " " >>pr.md
+          echo "Errors:" >>pr.md
+          for i in "${problems[@]}"
+          do
+            echo "${i}" >>pr.md
+          done
+
+          cat pr.md
+          cat pr.md > $GITHUB_STEP_SUMMARY
+          exit 2
+        fi
+    - name: Add or update PR Comment ${{ format('#{0} {1}', github.event.number, github.event_name) }}
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: failure() && github.event_name == 'pull_request'
+      with:
+        hide_and_recreate: true
+        hide_classify: "OUTDATED"
+        header: whitespace
+        path: pr.md
