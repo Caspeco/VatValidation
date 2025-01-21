@@ -28,7 +28,7 @@
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.5" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="*" PrivateAssets="All"/>
-    <PackageReference Include="IndexRange" Version="1.0.3" Condition=" '$(TargetFramework)' == 'netstandard2.0' " />
+    <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.0" Condition=" '$(TargetFramework)' == 'netstandard2.0' " />
   </ItemGroup>
 
 </Project>
