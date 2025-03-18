@@ -7,6 +7,8 @@ namespace VatValidation.Countries;
 /// valid, in: NL004495445B01, national: NL004495445B01, stripped: 004495445B01, vat: NL004495445B01, vatstripped: NL004495445B01
 /// valid, in: 824155890B08, national: NL824155890B08, stripped: 824155890B08, vat: NL824155890B08, vatstripped: NL824155890B08
 /// valid, in: 824155890B01, national: NL824155890B01, stripped: 824155890B01, vat: NL824155890B01, vatstripped: NL824155890B01
+/// valid, in: NL000099998B57, national: NL000099998B57, stripped: 000099998B57, vat: NL000099998B57, vatstripped: NL000099998B57
+/// invalid, in: NL000099998B01, national: NL000099998B01, stripped: 000099998B01, vat: NL000099998B01, vatstripped: NL000099998B01
 /// invalid, in: 824155891B01, national: 824155891B01, stripped: 824155891B01, vat: NL824155891B01, vatstripped: NL824155891B01
 /// invalid, in: NL824155891B01, national: NL824155891B01, stripped: 824155891B01, vat: NL824155891B01, vatstripped: NL824155891B01
 /// invalid, in: NL82x155891B01, national: NL82x155891B01, stripped: 82155891B01, vat: , vatstripped:
@@ -54,7 +56,13 @@ public class NL : CountryBase
 		.Zip(_multipliers, (d, m) => d * m)
 		.Sum() % 11 == 0;
 
+	private static int CalcMod(IEnumerable<int> digits, int mod)
+		=> digits.Aggregate((r, d) => (r * (d < 10 ? 10 : 100) + d) % mod);
+
+	/// <summary>NL prefix is required to get correct mod97</summary>
+	private static string ModPersonalFormat(string btw) => btw.Length == 12 ? $"NL{btw}" : btw;
+
 	// new 2020 personal
 	private static bool ValidPersonal(string btw) =>
-		Convert.ToInt64(string.Join("", btw.Select(c => charset.IndexOf(c)))) % 97 == 1;
+		CalcMod(ModPersonalFormat(btw).Select(c => charset.IndexOf(c)), 97) == 1;
 }
