@@ -58,9 +58,12 @@ public abstract class CountryBase : ICountry
 	public static ReadOnlySpan<int> GetIntsFromString(string s) => s.Select(c => c - '0')
 		.Where(x => 0 <= x && x <= 9).ToArray().AsSpan();
 
+	protected static int CalcMod(IEnumerable<int> digits, int mod)
+		=> digits.Aggregate((r, d) => (r * (d < 10 ? 10 : 100) + d) % mod);
+
 	public static string ToStr(ReadOnlySpan<int> ints) => string.Join("", ints.ToArray());
 
-	protected static int LuhnSum(ReadOnlySpan<int> digits)
+	public static int LuhnSum(ReadOnlySpan<int> digits)
 	{
 		int sm = 0;
 		for (int i = digits.Length - 1; i >= 0; i--)

@@ -25,4 +25,13 @@ public class CountrySeTests
 		Assert.Equal(expectedValid, vat.Valid);
 		Assert.Equal(expectNational, vat.FormatNational);
 	}
+
+	[Theory]
+	[InlineData(0, "404 833 048")]
+	[InlineData(0, "023928237")]
+	[InlineData(0, "7	3	2	8	2	9	3	2	0")]
+	public void LuhnTest(int expected, VatNumber input)
+	{
+		Assert.Equal(expected, Countries.CountryBase.LuhnSum([0, .. input.GetInts()]));
+	}
 }

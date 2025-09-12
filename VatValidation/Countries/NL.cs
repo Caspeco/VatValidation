@@ -56,9 +56,6 @@ public class NL : CountryBase
 		.Zip(_multipliers, (d, m) => d * m)
 		.Sum() % 11 == 0;
 
-	private static int CalcMod(IEnumerable<int> digits, int mod)
-		=> digits.Aggregate((r, d) => (r * (d < 10 ? 10 : 100) + d) % mod);
-
 	/// <summary>NL prefix is required to get correct mod97</summary>
 	private static string ModPersonalFormat(string btw) => btw.Length == 12 ? $"NL{btw}" : btw;
 
