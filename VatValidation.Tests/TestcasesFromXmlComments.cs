@@ -9,7 +9,7 @@ public class TestcasesFromXmlComments
 	private static IEnumerable<string> GetElementsLines(IEnumerable<XElement>? elms) =>
 		elms?.SelectMany(e => e.Nodes().SelectMany(n => n.ToString().Trim().Split('\n').Select(l => l.Trim()))) ?? [];
 
-	private static void AddTestcasesFromTypeXmlData(TheoryData<string, TestData> cases, Countries.ICountry inst)
+	private static string[] GetTestCaseRows(Countries.ICountry inst)
 	{
 		Console.WriteLine($"{nameof(AddTestcasesFromTypeXmlData)} {inst.CC}");
 		var documentation = inst.GetType().GetDocumentation()?.Trim();
@@ -28,7 +28,12 @@ public class TestcasesFromXmlComments
 		var country = region.EnglishName;
 		Assert.Equal(country, string.Join('\n', GetElementsLines(countryElms)));
 
-		foreach (var l in testcaserows)
+		return [.. testcaserows];
+	}
+
+	private static void AddTestcasesFromTypeXmlData(TheoryData<string, TestData> cases, Countries.ICountry inst)
+	{
+		foreach (var l in GetTestCaseRows(inst))
 		{
 			var data = new TestData(l);
 			var test = GetTestFromTestLine(inst.CC, data);
@@ -75,7 +80,7 @@ public class TestcasesFromXmlComments
 			for (int i = 0; i < spl.Length; i++)
 			{
 				var cspl = spl[i];
-				var kcspl = cspl.Split([':'],2).Select(f => f.Trim()).ToArray();
+				var kcspl = cspl.Split([':'], 2).Select(f => f.Trim()).ToArray();
 				if (cspl == "valid") ExpectedValidStripped = ExpectedValid = true;
 				else if (cspl == "invalid") ExpectedValidStripped = ExpectedValid = false;
 				else if (cspl == "strippedvalid") ExpectedValidStripped = true;
@@ -181,7 +186,9 @@ public class TestcasesFromXmlComments
 		AddTestcasesFromTypeXmlData(cases, inst);
 		foreach (var cs in cases)
 		{
-			Console.WriteLine($"{cs[0]} {cs[1]}");
+			Assert.Equal(ccKey, cs[0]);
+			// dump testcase data for possible use with RunManualXmlDocumentationLineTest
+			Console.WriteLine($"[InlineData(\"{ccKey}\", \"{cs[1]}\")]");
 		}
 	}
 
@@ -200,6 +207,17 @@ public class TestcasesFromXmlComments
 	[MemberData(nameof(GetCountryTestCases))]
 	public void GetXmlDocumentationTest(string ccKey, TestData data)
 	{
-		Assert.Multiple(GetTestFromTestLine(ccKey, data).ToArray());
+		Assert.Multiple([.. GetTestFromTestLine(ccKey, data)]);
+	}
+
+	[Theory]
+	[InlineData("SE", "invalid, in: 1, national: 1, vat: SE 1 01, stripped: 1, vatstripped: SE 1 01")] // dummy to not leave this empty
+	public void RunManualXmlDocumentationLineTest(string ccKey, string line)
+	{
+		var data = new TestData(line);
+		var test = GetTestFromTestLine(ccKey, data);
+		Assert.NotNull(test);
+
+		Assert.Multiple([.. test]);
 	}
 }
