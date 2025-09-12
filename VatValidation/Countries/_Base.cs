@@ -18,6 +18,8 @@ public abstract class CountryBase : ICountry
 
 	public virtual string FormatVat(VatNumber vat) => $"{CC} {FormatStripped(vat)}";
 
+	public virtual string FormatVatStripped(VatNumber vat) => $"{CC}{FormatStripped(vat)}";
+
 	private string? _ccCache;
 	public virtual string CC => _ccCache ??= string.Intern(GetType().Name);
 	public abstract int MinLength { get; }

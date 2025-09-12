@@ -118,6 +118,10 @@ public class TestcasesFromXmlComments
 			Assert.Equal(data.ExpectedNational, vat.FormatNational);
 			Assert.Equal(data.ExpectedVat, vat.FormatVat);
 			Assert.Equal(data.ExpectedStripped, vat.FormatStripped);
+			if (data.ExpectedVatStripped is not null)
+			{
+				Assert.Equal(data.ExpectedVatStripped, vat.FormatVatStripped);
+			}
 		};
 
 		yield return () => // VatStripValidNational
@@ -131,9 +135,16 @@ public class TestcasesFromXmlComments
 			// Formatted if valid, otherwise original data
 			if (!vatStrip.Valid)
 				Assert.Equal(data.ExpectedStripped, vatStrip.FormatNational);
-			//Assert.Equal(vatStrip.Valid ? expectNational : expectedStriped, vatStrip.FormatNational);
 			Assert.Equal(vatStrip.Valid ? data.ExpectedNational : data.ExpectedStripped, vatStrip.FormatNational);
-			Assert.Equal(data.ExpectedVatStripped ?? data.ExpectedVat, vatStrip.FormatVat);
+			if (vatStrip.Valid)
+			{
+				// make sure stripped but Valid VatNumber always formats fully
+				Assert.Equal(data.ExpectedVat, vatStrip.FormatVat);
+			}
+			if (data.ExpectedVatStripped is not null)
+			{
+				Assert.Equal(data.ExpectedVatStripped, vatStrip.FormatVatStripped);
+			}
 		};
 
 		if (!string.IsNullOrEmpty(data.ExpectedVat))
@@ -211,7 +222,7 @@ public class TestcasesFromXmlComments
 	}
 
 	[Theory]
-	[InlineData("SE", "invalid, in: 1, national: 1, vat: SE 1 01, stripped: 1, vatstripped: SE 1 01")] // dummy to not leave this empty
+	[InlineData("SE", "invalid, in: 1, national: 1, vat: SE 1 01, stripped: 1, vatstripped: SE101")] // dummy to not leave this empty
 	public void RunManualXmlDocumentationLineTest(string ccKey, string line)
 	{
 		var data = new TestData(line);

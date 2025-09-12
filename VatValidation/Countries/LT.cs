@@ -8,7 +8,7 @@ namespace VatValidation.Countries;
 /// <checksum>mod 11</checksum>
 /// <status>No official source</status>
 /// <testcases>
-/// valid, in: 119511515, national: 119511515, vat: LT119511515, stripped: 119511515
+/// valid, in: 119511515, national: 119511515, vat: LT119511515, stripped: 119511515, vatstripped: LT119511515
 /// valid, in: 100001919017, national: 100001919017, vat: LT100001919017, stripped: 100001919017
 /// valid, in: 241102419, national: 241102419, vat: LT241102419, stripped: 241102419
 /// valid, in: LT633 878 716, national: 633878716, vat: LT633878716, stripped: 633878716

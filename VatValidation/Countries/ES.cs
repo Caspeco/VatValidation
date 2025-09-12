@@ -5,9 +5,9 @@ namespace VatValidation.Countries;
 /// <testcases>
 /// valid, in: A58818501, national: A58818501, vat: ES A58818501, stripped: A58818501
 /// invalid, in: A58818502, national: A58818502, vat: ES A58818502, stripped: A58818502
-/// invalid, in: A5881850x, national: A5881850x, vat: ES A5881850x, stripped: A5881850, vatstripped: ES A5881850
-/// valid, in: B12345674, national: B12345674, vat: ES B12345674, stripped: B12345674
-/// valid, in: S1454158E, national: S1454158E, vat: ES S1454158E, stripped: S1454158E
+/// invalid, in: A5881850x, national: A5881850x, vat: ES A5881850x, stripped: A5881850, vatstripped: ESA5881850
+/// valid, in: B12345674, national: B12345674, vat: ES B12345674, stripped: B12345674, vatstripped: ESB12345674
+/// valid, in: S1454158E, national: S1454158E, vat: ES S1454158E, stripped: S1454158E, vatstripped: ESS1454158E
 /// </testcases>
 public class ES : CountryBase
 {

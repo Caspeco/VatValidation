@@ -7,5 +7,6 @@ public interface ICountry
 	string FormatStripped(VatNumber vat);
 	string FormatNational(VatNumber vat);
 	string FormatVat(VatNumber vat);
+	string FormatVatStripped(VatNumber vat);
 	bool TryParse(string input, out VatNumber vat);
 }

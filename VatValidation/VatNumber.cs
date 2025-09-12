@@ -24,6 +24,7 @@ public readonly struct VatNumber(string vatNumber) : IEquatable<VatNumber>
 	public string FormatNational => _country?.FormatNational(this) ?? _vatNumber;
 
 	public string FormatVat => _country?.FormatVat(this) ?? _vatNumber;
+	public string FormatVatStripped => _country?.FormatVatStripped(this) ?? _vatNumber;
 
 	public VatNumber VatStripped => _country is null ? new(FormatStripped) : new(_country, FormatStripped);
 

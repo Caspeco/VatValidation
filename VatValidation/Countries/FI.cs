@@ -3,18 +3,18 @@ namespace VatValidation.Countries;
 
 /// <country>Finland</country>
 /// <testcases>
-/// valid, in: 02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI 02017244
-/// valid, in: 0201724-4, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI 02017244
-/// invalid, in: 02017244x, strippedvalid, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI 02017244
-/// invalid, in: 0201723-4, national: 0201723-4, vat: FI 02017234, stripped: 02017234, vatstripped: FI 02017234
-/// invalid, in: 02017234, national: 02017234, vat: FI 02017234, stripped: 02017234, vatstripped: FI 02017234
-/// invalid, in: 201723-4, national: 201723-4, vat: FI 2017234, stripped: 2017234, vatstripped: FI 2017234
-/// invalid, in: 2017234, national: 2017234, vat: FI 2017234, stripped: 2017234, vatstripped: FI 2017234
-/// valid, in: FI 0201724-4, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI 02017244
-/// valid, in: FI 02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI 02017244
-/// valid, in: FI02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI 02017244
-/// invalid, in: FI 0201723-4, national: FI 0201723-4, vat: FI 02017234, stripped: 02017234, vatstripped: FI 02017234
-/// invalid, in: FI 02017234, national: FI 02017234, vat: FI 02017234, stripped: 02017234, vatstripped: FI 02017234
+/// valid, in: 02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
+/// valid, in: 0201724-4, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
+/// invalid, in: 02017244x, strippedvalid, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
+/// invalid, in: 0201723-4, national: 0201723-4, vat: FI 02017234, stripped: 02017234, vatstripped: FI02017234
+/// invalid, in: 02017234, national: 02017234, vat: FI 02017234, stripped: 02017234, vatstripped: FI02017234
+/// invalid, in: 201723-4, national: 201723-4, vat: FI 2017234, stripped: 2017234, vatstripped: FI2017234
+/// invalid, in: 2017234, national: 2017234, vat: FI 2017234, stripped: 2017234, vatstripped: FI2017234
+/// valid, in: FI 0201724-4, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
+/// valid, in: FI 02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
+/// valid, in: FI02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
+/// invalid, in: FI 0201723-4, national: FI 0201723-4, vat: FI 02017234, stripped: 02017234, vatstripped: FI02017234
+/// invalid, in: FI 02017234, national: FI 02017234, vat: FI 02017234, stripped: 02017234, vatstripped: FI02017234
 /// </testcases>
 public class FI : CountryBase
 {

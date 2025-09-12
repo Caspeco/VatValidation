@@ -33,6 +33,7 @@ public class NL : CountryBase
 	public override string FormatNational(VatNumber vat) => Valid(BtwStripp(vat)) ? FormatVat(vat) : (string?)vat ?? string.Empty;
 
 	public override string FormatVat(VatNumber vat) => FormatStrippedVat(FormatStripped(vat));
+	public override string FormatVatStripped(VatNumber vat) => FormatVat(vat);
 	private string FormatStrippedVat(string stripped) => BtwFormatValid(stripped) ? $"{CC}{stripped}" : "";
 
 	private const string charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+*";
