@@ -19,8 +19,6 @@ public class BE : CountryBase
 	private BE() { }
 	public static ICountry Instance { get; } = new BE();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
-
 	public override int MinLength => 9;
 
 	public override string FormatStripped(VatNumber vat) => ToStr(FixLen(vat.GetInts()));
@@ -32,7 +30,7 @@ public class BE : CountryBase
 	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 || (d.Length == 10 && (d[0] == 0 || d[1] == 1));
 
 	// https://www.fiducial.be/nl/news/Hoe-kunt-u-weten-of-uw-klant-u-een-correct-BTW-nummer-gaf
-	internal static bool Valid(ReadOnlySpan<int> digits) =>
+	protected override bool Valid(ReadOnlySpan<int> digits) =>
 		ValidFormat(digits) && (
 		Convert.ToInt32(ToStr(digits[..^2])) +
 		Convert.ToInt32(ToStr(digits[^2..]))) % 97 == 0;

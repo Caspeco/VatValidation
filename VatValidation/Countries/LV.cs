@@ -19,8 +19,6 @@ public class LV : CountryBase
 	private LV() { }
 	public static ICountry Instance { get; } = new LV();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
-
 	public override int MinLength => 11;
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, ToStr);
@@ -31,7 +29,7 @@ public class LV : CountryBase
 
 	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 11 && d[0] > 3;
 
-	internal static bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
+	protected override bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
 	private static bool Valid(int[] digits) => digits
 		.Zip(_multipliers, (d, m) => d * m)
 		.Sum() % 11 == 3;

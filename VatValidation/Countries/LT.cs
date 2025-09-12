@@ -21,8 +21,6 @@ public class LT : CountryBase
 	private LT() { }
 	public static ICountry Instance { get; } = new LT();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
-
 	public override int MinLength => 9;
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, ToStr);
@@ -34,7 +32,7 @@ public class LT : CountryBase
 		(d.Length == 12 && d[10] == 1);
 
 	private static int SumMod11(int[] d, int idxWeightOffset) => d.Select((v, i) => v * ((i + idxWeightOffset) % 9 + 1)).Sum() % 11;
-	private static bool Valid(ReadOnlySpan<int> digits)
+	protected override bool Valid(ReadOnlySpan<int> digits)
 	{
 		if (!ValidFormat(digits))
 			return false;

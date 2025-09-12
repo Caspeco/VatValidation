@@ -25,9 +25,7 @@ public class SE : CountryBase
 	private SE() { }
 	public static ICountry Instance { get; } = new SE();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
-
-	internal static bool Valid(ReadOnlySpan<int> digits) => digits.Length == 10 && LuhnSum(digits) == 0;
+	protected override bool Valid(ReadOnlySpan<int> digits) => digits.Length == 10 && LuhnSum(digits) == 0;
 
 	public override int MinLength => 10;
 	public override int MinLengthVat => 14;

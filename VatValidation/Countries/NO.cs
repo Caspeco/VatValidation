@@ -24,8 +24,6 @@ public class NO : CountryBase
 	private NO() { }
 	public static ICountry Instance { get; } = new NO();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
-
 	public override int MinLength => 9;
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, d => $"{ToStr(d[0..3])} {ToStr(d[3..6])} {ToStr(d[6..9])}");
@@ -38,7 +36,7 @@ public class NO : CountryBase
 	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 && (
 		d[0] == 2 || d[0] == 3 ||
 		d[0] == 8 || d[0] == 9);
-	internal static bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
+	protected override bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
 	private static bool Valid(int[] digits) =>
 		(11 - digits
 		.Zip(_multipliers, (d, m) => d * m)

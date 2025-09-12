@@ -15,6 +15,7 @@ public class ES : CountryBase
 	public static ICountry Instance { get; } = new ES();
 
 	public override bool Valid(VatNumber vat) => Valid((string?)vat ?? string.Empty);
+	protected override bool Valid(ReadOnlySpan<int> digits) => false;
 
 	public override int MinLength => 9;
 

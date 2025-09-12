@@ -24,8 +24,6 @@ public class EE : CountryBase
 	private EE() { }
 	public static ICountry Instance { get; } = new EE();
 
-	public override bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
-
 	public override int MinLength => 9;
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, ToStr);
@@ -37,7 +35,7 @@ public class EE : CountryBase
 	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 && d[0] == 1 && d[1] == 0;
 
 	/// <summary>Kaibemaksukohuslase (KMKR)</summary>
-	internal static bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
+	protected override bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
 	private static bool Valid(int[] digits) =>
 		(10 - digits
 		.Zip(_multipliers, (d, m) => d * m)

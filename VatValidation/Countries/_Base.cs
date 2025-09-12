@@ -5,7 +5,12 @@ namespace VatValidation.Countries;
 public abstract class CountryBase : ICountry
 {
 	/// <summary>Validate VAT number for Country</summary>
-	public abstract bool Valid(VatNumber vat);
+	public virtual bool Valid(VatNumber vat) => Valid(vat.GetIntsIfNoChars());
+	/// <summary>
+	/// Most are numeric only so default implementation is supplied above
+	/// If not used or unsupported, and <see cref="Valid(VatNumber)"/> is overriden instead, this can be false
+	/// </summary>
+	protected abstract bool Valid(ReadOnlySpan<int> digits);
 
 	public virtual string FormatStripped(VatNumber vat) => ToStr(vat.GetInts());
 
