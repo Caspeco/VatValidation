@@ -28,8 +28,8 @@ public class NO : CountryBase
 
 	public override string FormatNational(VatNumber vat) => Format(vat, Valid, d => $"{ToStr(d[0..3])} {ToStr(d[3..6])} {ToStr(d[6..9])}");
 
-	public override string FormatVat(VatNumber vat) => ValidFormat(vat.GetInts().ToArray()) ? $"{CC} {FormatNational(vat)}" : "";
-	public override string FormatVatStripped(VatNumber vat) => ValidFormat(vat.GetInts().ToArray()) ? $"{CC}{FormatStripped(vat)}" : "";
+	public override string FormatVat(VatNumber vat) => ValidFormat(vat.GetInts()) ? $"{CC} {FormatNational(vat)}" : "";
+	public override string FormatVatStripped(VatNumber vat) => ValidFormat(vat.GetInts()) ? $"{CC}{FormatStripped(vat)}" : "";
 
 	private static readonly int[] _multipliers = [3, 2, 7, 6, 5, 4, 3, 2, 1];
 
