@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Norway</country>
+/// <name>Organisasjonsnummer</name>
+/// <shortname>Orgnr</shortname>
+/// <length>9</length>
+/// <checksum>mod 11</checksum>
+/// <status>Verified</status>
 /// <testcases>
 /// valid, in: 977074010, national: 977 074 010, vat: NO 977 074 010, stripped: 977074010, vatstripped: NO977074010
 /// valid, in: 977 074 010, national: 977 074 010, vat: NO 977 074 010, stripped: 977074010

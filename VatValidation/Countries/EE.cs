@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Estonia</country>
+/// <name>Käibemaksukohustuslase number</name>
+/// <shortname>KMKR</shortname>
+/// <length>9</length>
+/// <checksum>mod 10</checksum>
+/// <status>Verified no official source</status>
 /// <testcases>
 /// valid, in: 100931558, national: 100931558, vat: EE 100931558, stripped: 100931558, vatstripped: EE100931558
 /// valid, in: 100 931 558, national: 100931558, vat: EE 100931558, stripped: 100931558, vatstripped: EE100931558
@@ -34,7 +39,6 @@ public class EE : CountryBase
 
 	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 && d[0] == 1 && d[1] == 0;
 
-	/// <summary>Kaibemaksukohuslase (KMKR)</summary>
 	protected override bool Valid(ReadOnlySpan<int> digits) => ValidFormat(digits) && Valid(digits.ToArray());
 	private static bool Valid(int[] digits) =>
 		(10 - digits

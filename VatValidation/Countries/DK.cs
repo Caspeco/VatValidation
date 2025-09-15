@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Denmark</country>
+/// <name>Momsregistreringsnummer</name>
+/// <shortname>CVR</shortname>
+/// <length>8</length>
+/// <checksum>mod 11</checksum>
+/// <status>Verified</status>
 /// <testcases>
 /// valid, in: 25313763, national: 25 31 37 63, vat: DK 25313763, stripped: 25313763
 /// valid, in: 25 31 37 63, national: 25 31 37 63, vat: DK 25313763, stripped: 25313763, vatstripped: DK25313763

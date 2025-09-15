@@ -3,6 +3,11 @@ namespace VatValidation.Countries;
 
 // tests of non leading zero dosnt play well with <testcases>, left in legacy testcases
 /// <country>Belgium</country>
+/// <name>BTW identificatienummer</name>
+/// <shortname>BTW-nr</shortname>
+/// <length>10 (old 9)</length>
+/// <checksum>mod 97</checksum>
+/// <status>Verified</status>
 /// <testcases>
 /// valid, in: 0566.988.259, national: 0566.988.259, stripped: 0566988259, vat: BE 0566988259, vatstripped: BE0566988259, dontTryParse, comment: Also matching SE
 /// valid, in: 0566988259, national: 0566.988.259, stripped: 0566988259, vat: BE 0566988259, vatstripped: BE0566988259, dontTryParse, comment: Also matching SE

@@ -33,7 +33,7 @@ public class TestcasesFromXmlComments
 		var xmlo = GetXmlDocumentation(inst);
 		var testcaserows = GetXmlRows(xmlo, "testcases");
 
-		var region = new System.Globalization.RegionInfo(inst.CC);
+		var region = CountryGetterTests.CountryNameLookup(inst.CC);
 		var country = region.EnglishName;
 		Assert.Equal(country, string.Join('\n', GetXmlRows(xmlo, "country")));
 

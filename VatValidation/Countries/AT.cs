@@ -4,8 +4,8 @@ namespace VatValidation.Countries;
 /// <country>Austria</country>
 /// <name>Umsatzsteuer-Identifikationsnummer</name>
 /// <shortname>UID-Nummer</shortname>
-/// <length>9</length>
-/// <checksum>U + luhn(+4)</checksum>
+/// <length>9 (U + 8)</length>
+/// <checksum>luhn 10 +4</checksum>
 /// <status>Verified</status>
 /// <testcases>
 /// valid, in: ATU10223006, national: ATU10223006, vat: ATU10223006, stripped: ATU10223006, vatstripped: ATU10223006

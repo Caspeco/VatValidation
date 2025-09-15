@@ -5,7 +5,7 @@ namespace VatValidation.Countries;
 /// <name>Imposta sul valore aggiunto</name>
 /// <shortname>Partita IVA</shortname>
 /// <length>11</length>
-/// <checksum>Luhn 10</checksum>
+/// <checksum>luhn 10</checksum>
 /// <status>Verified</status>
 /// <testcases>
 /// valid, in: 07643520567, national: 07643520567, vat: IT07643520567, stripped: 07643520567, vatstripped: IT07643520567

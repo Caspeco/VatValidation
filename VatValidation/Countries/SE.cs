@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Sweden</country>
+/// <name>Momsnummer</name>
+/// <shortname>Momsnr.</shortname>
+/// <length>12, 10</length>
+/// <checksum>luhn 10</checksum>
+/// <status>Verified official</status>
 /// <testcases>
 /// valid, in: 1010101010, national: 101010-1010, vat: SE 1010101010 01, stripped: 1010101010, vatstripped: SE101010101001
 /// valid, in: 5566778899, national: 556677-8899, vat: SE 5566778899 01, stripped: 5566778899, vatstripped: SE556677889901

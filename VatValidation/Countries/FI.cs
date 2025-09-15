@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Finland</country>
+/// <name>Arvonlisäveronumero</name>
+/// <shortname>ALV nro</shortname>
+/// <length>8</length>
+/// <checksum>mod 11-2</checksum>
+/// <status>Verified official</status>
 /// <testcases>
 /// valid, in: 02017244, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244
 /// valid, in: 0201724-4, national: 0201724-4, vat: FI 02017244, stripped: 02017244, vatstripped: FI02017244

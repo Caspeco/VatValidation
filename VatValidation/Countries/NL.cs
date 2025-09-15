@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Netherlands</country>
+/// <name>Btw-nummer</name>
+/// <shortname>Btw-nr.</shortname>
+/// <length>12</length>
+/// <checksum>mod 11 / mod 97</checksum>
+/// <status>Verified</status>
 /// <testcases>
 /// valid, in: 004495445B01, national: NL004495445B01, stripped: 004495445B01, vat: NL004495445B01, vatstripped: NL004495445B01
 /// valid, in: NL004495445B01, national: NL004495445B01, stripped: 004495445B01, vat: NL004495445B01, vatstripped: NL004495445B01

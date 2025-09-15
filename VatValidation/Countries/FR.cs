@@ -5,8 +5,8 @@ namespace VatValidation.Countries;
 /// <name>Numéro de TVA intracommunautaire / SIREN</name>
 /// <shortname>N° TVA</shortname>
 /// <length>11, 9</length>
-/// <checksum>mod 97, Luhn 10</checksum>
-/// <status>Mostly verified insee.fr</status>
+/// <checksum>mod 97, luhn 10</checksum>
+/// <status>Verified</status>
 /// <testcases>
 /// valid, in: 404 833 048, national: 404 833 048, vat: FR83 404 833 048, stripped: 404833048, vatstripped: FR83404833048
 /// valid, in: FR 83 404 833 048, national: 404 833 048, vat: FR83 404 833 048, stripped: 404833048, vatstripped: FR83404833048

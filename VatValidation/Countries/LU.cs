@@ -5,7 +5,7 @@ namespace VatValidation.Countries;
 /// <name>Numéro d'identification à la taxe sur la valeur ajoutéee</name>
 /// <shortname>No. TVA</shortname>
 /// <length>8</length>
-/// <checksum>Mod 89</checksum>
+/// <checksum>mod 89</checksum>
 /// <status>Verified</status>
 /// <testcases>
 /// valid, in: 15027442, national: 15027442, vat: LU 15027442, stripped: 15027442, vatstripped: LU15027442

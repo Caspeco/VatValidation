@@ -2,6 +2,11 @@
 namespace VatValidation.Countries;
 
 /// <country>Portugal</country>
+/// <name>Número de Identificação de Pessoa Coletiva</name>
+/// <shortname>NIPC</shortname>
+/// <length>9</length>
+/// <checksum>mod 11</checksum>
+/// <status>Verified</status>
 /// <testcases>
 /// valid, in: 999999990, national: 999999990, stripped: 999999990, vat: PT 999999990, vatstripped: PT999999990
 /// valid, in: 287024008, national: 287024008, stripped: 287024008, vat: PT 287024008, vatstripped: PT287024008
