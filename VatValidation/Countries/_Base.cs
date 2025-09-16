@@ -74,9 +74,8 @@ public abstract class CountryBase : ICountry
 	public static int ToInt(IEnumerable<int> digits)
 		=> digits.Aggregate((r, d) => r * (d < 10 ? 10 : 100) + d);
 
-	public static int LuhnSum(ReadOnlySpan<int> digits)
+	public static int LuhnSum(ReadOnlySpan<int> digits, int sm = 0)
 	{
-		int sm = 0;
 		for (int i = digits.Length - 1; i >= 0; i--)
 		{
 			int n = digits[i];
