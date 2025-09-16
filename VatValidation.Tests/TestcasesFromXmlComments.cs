@@ -6,33 +6,43 @@ namespace VatValidation.Tests;
 
 public class TestcasesFromXmlComments
 {
-	private static IEnumerable<string> GetElementsLines(IEnumerable<XElement>? elms) =>
-		elms?.SelectMany(e => e.Nodes().SelectMany(n => n.ToString().Trim().Split('\n').Select(l => l.Trim()))) ?? [];
+	protected static IEnumerable<string> GetElementsLines(IEnumerable<XElement>? elms) =>
+		elms?.SelectMany(GetElementsLines) ?? [];
+	protected static IEnumerable<string> GetElementsLines(XElement? elm) =>
+		elm?.Nodes().SelectMany(n => n.ToString().Trim().Split('\n').Select(l => l.Trim())) ?? [];
 
-	private static string[] GetTestCaseRows(Countries.ICountry inst)
+	protected static XElement GetXmlDocumentation(Countries.ICountry inst)
 	{
-		Console.WriteLine($"{nameof(AddTestcasesFromTypeXmlData)} {inst.CC}");
 		var documentation = inst.GetType().GetDocumentation()?.Trim();
 		if (documentation is null)
 			Console.WriteLine("all implementations must at least have basic XML testcases");
 		Assert.NotNull(documentation);
 		Assert.NotEqual("", documentation);
-		var xmlo = XElement.Parse($"<root>{documentation}</root>");
-		var testcases = xmlo.Elements("testcases");
-		Assert.Single(testcases);
-		var testcaserows = GetElementsLines(testcases)?.ToList() ?? [];
+		return XElement.Parse($"<root>{documentation}</root>");
+	}
 
-		var countryElms = xmlo.Elements("country");
-		Assert.Single(countryElms);
+	private static IEnumerable<string> GetXmlRows(XElement xmlo, string name)
+	{
+		var elems = xmlo.Elements(name);
+		Assert.Single(elems);
+		return GetElementsLines(elems);
+	}
+
+	private static string[] GetTestCaseRows(Countries.ICountry inst)
+	{
+		var xmlo = GetXmlDocumentation(inst);
+		var testcaserows = GetXmlRows(xmlo, "testcases");
+
 		var region = new System.Globalization.RegionInfo(inst.CC);
 		var country = region.EnglishName;
-		Assert.Equal(country, string.Join('\n', GetElementsLines(countryElms)));
+		Assert.Equal(country, string.Join('\n', GetXmlRows(xmlo, "country")));
 
 		return [.. testcaserows];
 	}
 
 	private static void AddTestcasesFromTypeXmlData(TheoryData<string, TestData> cases, Countries.ICountry inst)
 	{
+		Console.WriteLine($"{nameof(AddTestcasesFromTypeXmlData)} {inst.CC}");
 		foreach (var l in GetTestCaseRows(inst))
 		{
 			var data = new TestData(l);
