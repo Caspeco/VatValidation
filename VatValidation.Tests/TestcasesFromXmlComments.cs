@@ -160,12 +160,25 @@ public class TestcasesFromXmlComments
 			};
 		}
 
+		yield return () => // dump if different match
+		{
+			var valids = Countries.CountryBase.CcInstances.Values
+			.Where(i => i.TryParse(data.Input!, out _)).ToList();
+			foreach (var v in valids)
+			{
+				if (v.CC == instance.CC)
+					continue;
+				Console.WriteLine($"{instance.CC} Valid with CC:  {v.CC}  inp: {data.Input}");
+			}
+		};
+
 		if (!data.DontTryParseOnInput)
 		{
 			yield return () => // TryParse Known VAT
 			{
-				Assert.Equal(data.ExpectedValid, VatNumber.TryParse(data.Input!, out var vat));
-				Console.WriteLine($"cc: {vat.CC} nat: {vat.FormatNational} vat: {vat.FormatVat}");
+				var parseValid = VatNumber.TryParse(data.Input!, out var vat);
+				Console.WriteLine($"cc: {vat.CC} nat: {vat.FormatNational} vat: {vat.FormatVat} parsevalid: {parseValid}");
+				Assert.Equal(data.ExpectedValid, parseValid);
 				Assert.Equal(data.ExpectedValid ? instance.CC : null, vat.CC);
 				Assert.Equal(data.ExpectedValid, vat.Valid);
 				Assert.Equal(data.ExpectedValid ? data.ExpectedVat : "", vat.FormatVat);
