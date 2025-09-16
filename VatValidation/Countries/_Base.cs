@@ -70,6 +70,10 @@ public abstract class CountryBase : ICountry
 
 	public static string ToStr(ReadOnlySpan<int> ints) => string.Join("", ints.ToArray());
 
+	/// <summary>One combined number from separate parts</summary>
+	public static int ToInt(IEnumerable<int> digits)
+		=> digits.Aggregate((r, d) => r * (d < 10 ? 10 : 100) + d);
+
 	public static int LuhnSum(ReadOnlySpan<int> digits)
 	{
 		int sm = 0;

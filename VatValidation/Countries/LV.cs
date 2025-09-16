@@ -12,7 +12,7 @@ namespace VatValidation.Countries;
 /// valid, in: LV 4000 3521 600, national: 40003521600, vat: LV40003521600, stripped: 40003521600
 /// invalid, in: 40003521601, national: 40003521601, vat: LV40003521601, stripped: 40003521601
 /// invalid, in: 4000352160, national: 4000352160, vat: LV4000352160, stripped: 4000352160
-/// invalid, in: 16117519997, national: 16117519997, vat: LV16117519997, stripped: 16117519997
+/// invalid, in: 16117519997, national: 16117519997, vat: LV16117519997, stripped: 16117519997, vatstripped: LV16117519997, dontTryParse, comment: valid as IT
 /// </testcases>
 public class LV : CountryBase
 {
