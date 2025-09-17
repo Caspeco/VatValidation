@@ -28,7 +28,7 @@ public class FR : CountryBase
 	protected override bool Valid(ReadOnlySpan<int> digits) => digits.Length == 9 ? ValidSiren(digits) : ValidMod97(digits);
 
 	public override int MinLength => 9;
-	public override int MinLengthVat => 11;
+	public override int MinLengthVat => 13;
 
 	public override string FormatStripped(VatNumber vat) => ToStr(GetSiren(vat.GetInts()));
 	public override string FormatNational(VatNumber vat) => FormatNational(vat.GetInts());
