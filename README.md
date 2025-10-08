@@ -33,7 +33,7 @@ Countries still work in progress
 | Malta | MT | - | - | - | - | - | - | - | - | Not yet supported |
 | Netherlands | NL | Btw-nummer | Btw-nr. | 12 | mod 11 / mod 97 | NL004495445B01 | 004495445B01 | NL004495445B01 | NL004495445B01 | Verified |
 | Norway | NO | Organisasjonsnummer | Orgnr | 9 | mod 11 | 977 074 010 | 977074010 | NO 977 074 010 | NO977074010 | Verified |
-| Poland | PL | - | - | - | - | - | - | - | - | Not yet supported |
+| Poland | PL | Numer identyfikacji podatkowej | NIP | 10 | mod 11 | 123-456-32-18 | 1234563218 | PL1234563218 | PL1234563218 | Verified |
 | Portugal | PT | Número de Identificação de Pessoa Coletiva | NIPC | 9 | mod 11 | 999999990 | 999999990 | PT 999999990 | PT999999990 | Verified |
 | Romania | RO | - | - | - | - | - | - | - | - | Not yet supported |
 | Slovakia | SK | - | - | - | - | - | - | - | - | Not yet supported |
