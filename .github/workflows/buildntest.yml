@@ -31,22 +31,21 @@ jobs:
           echo "Version $version" >> "$GITHUB_STEP_SUMMARY"
           echo "version=$version" >> "$GITHUB_ENV"
           echo "buildopts=--configuration $Config --no-restore -p:RepositoryCommit=$GITHUB_SHA -p:Version=$version" >> "$GITHUB_ENV"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-              8.0.x
-              9.0.x
+              10.0.x
       - name: Install dependencies
         run: dotnet restore *.sln || (ls -lha && exit 1)
       - name: Build ${{ env.buildopts }}
         run: dotnet build *.sln ${{ env.buildopts }} || dotnet build NET ${{ env.buildopts }} --verbosity detailed
       - name: Run Tests
-        run: dotnet test *.sln ${{ env.buildopts }} --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" --results-directory ./coverage
+        run: dotnet test *.sln ${{ env.buildopts }} --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
 
       - name: Generate Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: success() || failure()
         with:
           name: Test Report
@@ -60,12 +59,15 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: '**/coverage.cobertura.xml'
-
+      - name: Merge coverage reports
+        run: |
+          dotnet tool install --global dotnet-coverage
+          dotnet-coverage merge -o Tests/coverage-merged.xml -f cobertura -ll verbose **/coverage.cobertura.xml
       - name: Code Coverage Report
         if: success() || failure()
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: coverage/**/coverage.cobertura.xml
+          filename: "**/coverage-merged.xml"
           badge: true
           fail_below_min: false
           format: markdown
@@ -82,7 +84,9 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         if: (success() || failure()) && github.event_name == 'pull_request'
         with:
-          recreate: true
+          hide_and_recreate: true
+          hide_classify: "OUTDATED"
+          header: codecoverage
           path: code-coverage-results.md
 
       - name: NuGet Package ${{ github.repository_owner }} ${{ env.version }}
