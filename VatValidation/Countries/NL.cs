@@ -30,6 +30,7 @@ public class NL : CountryBase
 	public static ICountry Instance { get; } = new NL();
 
 	public override bool Valid(VatNumber vat) => Valid(BtwStripp((string?)vat ?? string.Empty));
+	[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 	protected override bool Valid(ReadOnlySpan<int> digits) => false;
 
 	public override int MinLength => 12;

@@ -20,6 +20,7 @@ public class ES : CountryBase
 	public static ICountry Instance { get; } = new ES();
 
 	public override bool Valid(VatNumber vat) => Valid((string?)vat ?? string.Empty);
+	[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 	protected override bool Valid(ReadOnlySpan<int> digits) => false;
 
 	public override int MinLength => 9;
@@ -40,12 +41,10 @@ public class ES : CountryBase
 
 	// https://www.arintass.com/what-is-the-cif-nif-and-nif-iva/
 	internal static bool Valid(string nif)
+		=> FormatValid(nif) && Valid(nif, GetIntsFromString(nif));
+
+	private static bool Valid(string nif, ReadOnlySpan<int> ints)
 	{
-		if (!FormatValid(nif))
-			return false;
-
-		var ints = GetIntsFromString(nif);
-
 		var sum = LuhnSum(ints[..7]);
 		return "NPQRSW".Contains(nif[0])
 			? nif[^1] == "JABCDEFGHI"[sum]
