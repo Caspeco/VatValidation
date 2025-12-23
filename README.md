@@ -22,7 +22,7 @@ Countries still work in progress
 | Estonia | EE | Käibemaksukohustuslase number | KMKR | 9 | mod 10 | 100931558 | 100931558 | EE 100931558 | EE100931558 | Verified no official source |
 | Finland | FI | Arvonlisäveronumero | ALV nro | 8 | mod 11-2 | 0201724-4 | 02017244 | FI 02017244 | FI02017244 | Verified official |
 | France | FR | Numéro de TVA intracommunautaire / SIREN | N° TVA | 11, 9 | mod 97, luhn 10 | 404 833 048 | 404833048 | FR83 404 833 048 | FR83404833048 | Verified |
-| Germany | DE | - | - | - | - | - | - | - | - | Not yet supported |
+| Germany | DE | USt-IdNr | USt-IdNr | 8 | mod 11, mod 10, ISO 7064 | 115235681 | 115235681 | DE 115235681 | DE115235681 | Verified |
 | Greece | EL | - | - | - | - | - | - | - | - | Not yet supported |
 | Hungary | HU | - | - | - | - | - | - | - | - | Not yet supported |
 | Ireland | IE | - | - | - | - | - | - | - | - | Not yet supported |

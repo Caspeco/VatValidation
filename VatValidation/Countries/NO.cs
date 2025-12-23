@@ -23,6 +23,7 @@ namespace VatValidation.Countries;
 /// invalid, in: 310033242, national: 310033242, vat: NO 310033242, stripped: 310033242
 /// valid, in: 212409472, national: 212 409 472, vat: NO 212 409 472, stripped: 212409472, comment: test number from skatteetaten.no
 /// invalid, in: 212409471, national: 212409471, vat: NO 212409471, stripped: 212409471
+/// valid, in: 811 122 432, national: 811 122 432, vat: NO 811 122 432, stripped: 811122432, vatstripped: NO811122432, comment: possible DE conflict
 /// </testcases>
 public class NO : CountryBase
 {

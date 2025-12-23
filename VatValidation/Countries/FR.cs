@@ -8,12 +8,13 @@ namespace VatValidation.Countries;
 /// <checksum>mod 97, luhn 10</checksum>
 /// <status>Verified</status>
 /// <testcases>
-/// valid, in: 404 833 048, national: 404 833 048, vat: FR83 404 833 048, stripped: 404833048, vatstripped: FR83404833048
+/// valid, in: 404 833 048, national: 404 833 048, vat: FR83 404 833 048, stripped: 404833048, vatstripped: FR83404833048, dontTryParse, comment: DE conflict
 /// valid, in: FR 83 404 833 048, national: 404 833 048, vat: FR83 404 833 048, stripped: 404833048, vatstripped: FR83404833048
 /// valid, in: 83 404 833 048, national: 404 833 048, vat: FR83 404 833 048, stripped: 404833048, vatstripped: FR83404833048
 /// valid, in: FR70932035157, national: 932 035 157, vat: FR70 932 035 157, stripped: 932035157, vatstripped: FR70932035157
 /// valid, in: 356000000, national: 356 000 000, vat: FR39 356 000 000, stripped: 356000000, vatstripped: FR39356000000
 /// valid, in: 712049618, national: 712 049 618, vat: FR25 712 049 618, stripped: 712049618, vatstripped: FR25712049618
+/// valid, in: 115235681, national: 115 235 681, vat: FR25 115 235 681, stripped: 115235681, vatstripped: FR25115235681, dontTryParse, comment: Valid as DE
 /// invalid, in: 28712049619, national: 28712049619, vat: FR 28712049619, stripped: 28712049619, vatstripped: FR28712049619
 /// invalid, in: 1712049619, national: 1712049619, vat: FR 1712049619, stripped: 1712049619, vatstripped: FR1712049619
 /// invalid, in: 712049619, national: 712049619, vat: FR 712049619, stripped: 712049619, vatstripped: FR712049619

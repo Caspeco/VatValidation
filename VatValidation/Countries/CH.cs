@@ -11,7 +11,7 @@ namespace VatValidation.Countries;
 /// valid, in: CHE109322551, national: CHE-109.322.551, vat: CHE-109.322.551, stripped: CHE109322551, vatstripped: CHE109322551
 /// valid, in: CHE123456788, national: CHE-123.456.788, vat: CHE-123.456.788, stripped: CHE123456788, vatstripped: CHE123456788
 /// valid, in: E123456788, national: CHE-123.456.788, vat: CHE-123.456.788, stripped: CHE123456788, vatstripped: CHE123456788
-/// invalid, in: 123456788, national: CHE-123.456.788, vat: CHE-123.456.788, stripped: CHE123456788, strippedvalid, vatstripped: CHE123456788, comment: only original format not valid
+/// invalid, in: 123456788, national: CHE-123.456.788, vat: CHE-123.456.788, stripped: CHE123456788, strippedvalid, vatstripped: CHE123456788, dontTryParse, comment: only original format not valid (valid as DE)
 /// invalid, in: CHE123456789, national: CHE123456789, vat: CHE123456789, stripped: CHE123456789, vatstripped: CHE123456789
 /// invalid, in: 123456787, national: 123456787, vat: 123456787, stripped: 123456787, vatstripped: 123456787, comment: ..89 is valid as PT
 /// </testcases>
