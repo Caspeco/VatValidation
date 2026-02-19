@@ -53,12 +53,6 @@ jobs:
           reporter: dotnet-trx
           fail-on-error: true
 
-      - name: Report to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        continue-on-error: true
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: '**/coverage.cobertura.xml'
       - name: Merge coverage reports
         run: |
           dotnet tool install --global dotnet-coverage
