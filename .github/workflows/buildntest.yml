@@ -11,6 +11,10 @@ on:
 env:
   Config: Release
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
