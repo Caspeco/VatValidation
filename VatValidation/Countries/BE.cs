@@ -32,7 +32,7 @@ public class BE : CountryBase
 
 	private static ReadOnlySpan<int> FixLen(ReadOnlySpan<int> d) => d.Length == 9 ? new int[] { 0 }.Concat(d.ToArray()).ToArray() : d;
 
-	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 || (d.Length == 10 && (d[0] == 0 || d[1] == 1));
+	private static bool ValidFormat(ReadOnlySpan<int> d) => d.Length == 9 || (d.Length == 10 && (d[0] == 0 || d[0] == 1));
 
 	// https://www.fiducial.be/nl/news/Hoe-kunt-u-weten-of-uw-klant-u-een-correct-BTW-nummer-gaf
 	protected override bool Valid(ReadOnlySpan<int> digits) =>
