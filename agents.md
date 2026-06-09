@@ -1,6 +1,6 @@
 # VatValidation
 
-VatValidation is a Caspeco library for validating VAT numbers and company registration numbers across EU countries.
+VatValidation is a Caspeco library for validating VAT numbers and company registration numbers across European countries
 
 ## Code style
 
