@@ -103,7 +103,7 @@ jobs:
           exit 2
         fi
     - name: Add or update PR Comment ${{ format('#{0} {1}', github.event.number, github.event_name) }}
-      uses: marocchino/sticky-pull-request-comment@v2
+      uses: marocchino/sticky-pull-request-comment@v3
       if: failure() && github.event_name == 'pull_request'
       with:
         hide_and_recreate: true
