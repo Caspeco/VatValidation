@@ -1,0 +1,14 @@
+name: Dependabot auto-merge
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  automerge:
+    uses: Caspeco/github-actions/.github/workflows/dependabot-automerge.yml@v2
+    with:
+      automerge-level: 'minor'
+      automerge-level-dev: 'minor'
+      merge-method: 'squash'
+    secrets: inherit
