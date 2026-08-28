@@ -1,5 +1,7 @@
 # VatValidation
 
+Always check this directory for a README.md with details about the repo/project; if there isn't one, check the parent directory.
+
 VatValidation is a Caspeco library for validating VAT numbers and company registration numbers across European countries
 
 ## Code style

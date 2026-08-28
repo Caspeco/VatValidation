@@ -1,1 +1,1 @@
-C:/Repos/VatValidation/agents.md
+AGENTS.md
